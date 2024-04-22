@@ -21,7 +21,7 @@ export const UserProvider = ({ children }) => {
     // Check user authentication status on load
     const checkAuthentication = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/auth/validate', {
+        const response = await axios.get('https://server01-three.vercel.app/auth/validate', {
           withCredentials: true
         });
         if (response.data.Status) {
@@ -56,7 +56,7 @@ export const UserProvider = ({ children }) => {
 
   const addTask = async (taskData) => {
     try {
-      const response = await axios.post("http://localhost:5000/createTask", taskData, {
+      const response = await axios.post("https://server01-three.vercel.app/createTask", taskData, {
         headers: { Authorization: `Bearer ${user.token}` } // Use the user token
       });
       // Update tasks state and local storage
@@ -76,7 +76,7 @@ export const UserProvider = ({ children }) => {
   const fetchTasks = async (username, token) => {
     if (!username) return;  // Check if user or user.username is null or undefined
     try {
-      const response = await axios.get(`http://localhost:5000/${username}`, {
+      const response = await axios.get(`https://server01-three.vercel.app/${username}`, {
         headers: { Authorization: `Bearer ${token}` } // Use the token
       });
       setTasks(response.data);
@@ -88,7 +88,7 @@ export const UserProvider = ({ children }) => {
 
   const signUp = async (userData) => {
     try {
-      const response = await axios.post("http://localhost:5000/auth/signup", userData);
+      const response = await axios.post("https://server01-three.vercel.app/auth/signup", userData);
       Cookies.set("token", response.data.token);
       setUser({ username: response.data.username, token: response.data.token });
       await fetchTasks(response.data.username, response.data.token);  // Fetch tasks right after setting user
@@ -101,7 +101,7 @@ export const UserProvider = ({ children }) => {
 
   const login = async (creds) => {
     try {
-      const response = await axios.post("http://localhost:5000/auth/login", creds);
+      const response = await axios.post("https://server01-three.vercel.app/auth/login", creds);
       Cookies.set("token", response.data.token);
       setUser({ username: response.data.username, token: response.data.token });
       localStorage.setItem("user", JSON.stringify({ username: response.data.username, token: response.data.token }));
@@ -123,7 +123,7 @@ export const UserProvider = ({ children }) => {
 
   const updateTask = async (updatedTask) => {
     try {
-      await axios.put(`http://localhost:5000/update/${updatedTask._id}`, updatedTask);
+      await axios.put(`https://server01-three.vercel.app/update/${updatedTask._id}`, updatedTask);
 
       // Update the tasks in the state
       setTasks(currentTasks => {
@@ -148,7 +148,7 @@ export const UserProvider = ({ children }) => {
   const deleteTask = async (taskId) => {
     try {
       // Send a request to the backend to delete the task
-      await axios.delete(`http://localhost:5000/delete/${taskId}`);
+      await axios.delete(`https://server01-three.vercel.app/delete/${taskId}`);
 
       // If successful, update the state to filter out the deleted task
       setTasks(currentTasks => {
