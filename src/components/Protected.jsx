@@ -10,7 +10,7 @@ const ProtectedRoute = ({ Component, ...props }) => {
     const validateSession = async () => {
       try {
         // Validate user session
-        const response = await axios.get('http://localhost:5000/auth/validate', {
+        const response = await axios.get('https://server01-three.vercel.app/auth/validate', {
           withCredentials: true
         });
         setValidToken(response.data.status);
